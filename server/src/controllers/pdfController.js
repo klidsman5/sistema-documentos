@@ -9,9 +9,9 @@ const generarPdf = async (req, res) => {
     // 1. RECIBIR DATOS: Ahora recibimos también 'tipoDoc' y 'titulo' desde el Frontend
     const { nombre, cargo, tareas, dni, tipoDoc, titulo } = req.body;
 
-    console.log(`📄 Solicitud recibida: ${tipoDoc} - ${titulo}`);
+    console.log(`Solicitud recibida: ${tipoDoc} - ${titulo}`);
 
-    // 2. SELECCIONAR PLANTILLA: Aquí está la magia nueva
+    // SELECCIONAR PLANTILLA: Aquí está la magia nueva
     let nombrePlantilla = 'reporte.ejs'; // Por defecto usamos esta
 
     // Si el código del documento es 'personal_dj', cambiamos de archivo
@@ -28,7 +28,7 @@ const generarPdf = async (req, res) => {
 
     // 4. SEGURIDAD: Verificar que el archivo .ejs realmente exista
     if (!fs.existsSync(rutaPlantilla)) {
-        console.warn(`⚠️ No encontré ${nombrePlantilla}, usaré reporte.ejs por emergencia.`);
+        console.warn(`No encontré ${nombrePlantilla}, usaré reporte.ejs por emergencia.`);
         // Opcional: Forzar el uso de reporte.ejs si falla la específica
         // rutaPlantilla = path.join(__dirname, '..', 'templates', 'reporte.ejs');
     }
@@ -65,7 +65,7 @@ const generarPdf = async (req, res) => {
     res.send(pdfBuffer);
 
   } catch (error) {
-    console.error("❌ Error generando PDF:", error);
+    console.error("Error generando PDF:", error);
     res.status(500).send("Error interno: " + error.message);
   }
 };
