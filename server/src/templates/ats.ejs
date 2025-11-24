@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 40px; }
+        h1 { color: #275380; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #000; padding: 10px; }
+        th { background-color: #ddd; }
+        .info-box { margin-bottom: 20px; } /* Un pequeño estilo extra para separar */
+    </style>
+</head>
+<body>
+    <h1>Reporte de: <%= nombre %></h1>
+    
+    <div class="info-box">
+        <p><strong>DNI:</strong> <%= dni %></p>
+        <p><strong>Cargo:</strong> <%= cargo %></p>
+    </div>
+
+    <table>
+        <thead>
+            <tr><th>Tarea</th><th>Horas</th></tr>
+        </thead>
+        <tbody>
+            <% tareas.forEach(function(t) { %>
+                <tr>
+                    <td><%= t.descripcion %></td>
+                    <td><%= t.horas %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>

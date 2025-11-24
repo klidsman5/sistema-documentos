@@ -1,0 +1,38 @@
+// server/prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// --- TABLAS ---
+
+// 1. Usuarios del sistema
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String   // Aquí guardaremos la contraseña encriptada
+  nombre    String
+  rol       String   // "ADMIN", "TRABAJADOR", "RRHH"
+  createdAt DateTime @default(now())
+  
+  documentos Document[] // Relación: Un usuario tiene muchos documentos
+}
+
+// 2. Los Documentos generados
+model Document {
+  id          Int      @id @default(autoincrement())
+  tipo        String   // "ATS", "INSPECCION", etc.
+  datos       Json     // Aquí guardaremos todas las respuestas del formulario
+  pdfUrl      String?  // Link al PDF final
+  
+  creadorId   Int
+  creador     User     @relation(fields: [creadorId], references: [id])
+  
+  estado      String   @default("BORRADOR") // BORRADOR, APROBADO
+  createdAt   DateTime @default(now())
+}
