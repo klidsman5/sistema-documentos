@@ -1,4 +1,4 @@
-// server/src/controllers/authController.js
+
 const prisma = require('../config/db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -51,7 +51,7 @@ const loginUsuario = async (req, res) => {
     const token = jwt.sign(
       { id: usuario.id, rol: usuario.rol, nombre: usuario.nombre }, // Datos a guardar en el token
       process.env.JWT_SECRET, // La clave secreta del .env
-      { expiresIn: '8h' } // Expira en 8 horas
+      { expiresIn: '8h' } 
     );
 
     res.json({ message: 'Bienvenido', token, usuario: { nombre: usuario.nombre, rol: usuario.rol } });
