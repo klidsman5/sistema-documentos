@@ -8,15 +8,12 @@ const registrarUsuario = async (req, res) => {
   try {
     const { email, password, nombre, rol } = req.body;
 
-    // 1. Verificar si ya existe
     const existe = await prisma.user.findUnique({ where: { email } });
     if (existe) return res.status(403).json({ error: 'El email ya está registrado' });
 
-    // 2. Encriptar contraseña (Hashing)
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
 
-    // 3. Guardar en Base de Datos
     const usuario = await prisma.user.create({
       data: {
         email,
@@ -34,20 +31,16 @@ const registrarUsuario = async (req, res) => {
   }
 };
 
-// --- LOGIN ---
 const loginUsuario = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // 1. Buscar usuario
     const usuario = await prisma.user.findUnique({ where: { email } });
     if (!usuario) return res.status(400).json({ error: 'Credenciales inválidas' });
 
-    // 2. Comparar contraseñas (La que escribió vs La encriptada)
     const valida = await bcrypt.compare(password, usuario.password);
     if (!valida) return res.status(400).json({ error: 'Credenciales inválidas' });
 
-    // 3. Generar el Token 
     const token = jwt.sign(
       { id: usuario.id, rol: usuario.rol, nombre: usuario.nombre }, // Datos a guardar en el token
       process.env.JWT_SECRET, // La clave secreta del .env
