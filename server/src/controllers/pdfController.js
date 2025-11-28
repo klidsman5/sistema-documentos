@@ -1,4 +1,3 @@
-// server/src/controllers/pdfController.js
 const path = require('path');
 const fs = require('fs');
 const ejs = require('ejs');
@@ -6,13 +5,13 @@ const puppeteer = require('puppeteer');
 
 const generarPdf = async (req, res) => {
   try {
-    // 1. RECIBIR DATOS: Ahora recibimos también 'tipoDoc' y 'titulo' desde el Frontend
+    // 1. RECIBIR DATOS
     const { nombre, cargo, tareas, dni, tipoDoc, titulo } = req.body;
 
     console.log(`Solicitud recibida: ${tipoDoc} - ${titulo}`);
 
-    // SELECCIONAR PLANTILLA: Aquí está la magia nueva
-    let nombrePlantilla = 'reporte.ejs'; // Por defecto usamos esta
+    // SELECCIONAR PLANTILLA
+    let nombrePlantilla = 'reporte.ejs'; 
 
     // Si el código del documento es 'personal_dj', cambiamos de archivo
     if (tipoDoc === 'personal_dj') {
@@ -26,23 +25,21 @@ const generarPdf = async (req, res) => {
     // 3. DEFINIR RUTA COMPLETA
     const rutaPlantilla = path.join(__dirname, '..', 'templates', nombrePlantilla);
 
-    // 4. SEGURIDAD: Verificar que el archivo .ejs realmente exista
+    // Verificar que el archivo .ejs realmente exista
     if (!fs.existsSync(rutaPlantilla)) {
         console.warn(`No encontré ${nombrePlantilla}, usaré reporte.ejs por emergencia.`);
-        // Opcional: Forzar el uso de reporte.ejs si falla la específica
-        // rutaPlantilla = path.join(__dirname, '..', 'templates', 'reporte.ejs');
+        
     }
 
-    // 5. RENDERIZAR HTML
     const html = await ejs.renderFile(rutaPlantilla, { 
         nombre, 
         cargo, 
         tareas, 
         dni,
-        tituloDoc: titulo // Pasamos el título para que salga en el encabezado del PDF
+        tituloDoc: titulo 
     });
 
-    // 6. GENERAR PDF (Puppeteer)
+    // 6. GENERAR PDF 
     const browser = await puppeteer.launch({ 
         headless: true, 
         args: ['--no-sandbox'] 

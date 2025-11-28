@@ -26,7 +26,7 @@ const obtenerPerfil = async (req, res) => {
     }
 };
 
-// GET
+// GETpara obetner usuarios
 const obtenerUsuarios = async (req, res) => {
     try {
         const usuarios = await prisma.user.findMany({
@@ -45,7 +45,7 @@ const obtenerUsuarios = async (req, res) => {
     }
 };
 
-//PUT
+//PUT para actuaizar usuario
 const actualizarUsuario = async (req, res) => {
     const { id } = req.params;
     const { nombre, rol } = req.body; 

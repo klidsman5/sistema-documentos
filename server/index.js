@@ -10,8 +10,8 @@ const userRoutes = require('./src/routes/users.routes');
 const app = express();
 
 // Middlewares
-app.use(cors());//peticiones entre diferentes dominios
-app.use(express.json());//covierte el json a un objeto de js
+app.use(cors());
+app.use(express.json());
 
 // USAR LAS RUTAS
 
