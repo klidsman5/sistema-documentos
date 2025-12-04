@@ -30,7 +30,7 @@ const registrarUsuario = async (req, res) => {
     res.status(500).json({ error: 'Error al registrar usuario' });
   }
 };
-
+//nuevo inicio de sesion y token
 const loginUsuario = async (req, res) => {
   try {
     const { email, password } = req.body;
